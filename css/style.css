@@ -1,0 +1,152 @@
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+@import url("font-awesome.min.css");
+@import url("bootstrap.css");
+@import url("bootsnav.css");
+* {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	box-sizing:border-box;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul, li{
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/** END RESET **/
+body {
+	font-family:'微软雅黑';
+	background-color: hsla(0,0%,18%,1.00);
+	color: #fff;
+	font-size:13px;
+}
+
+h1 {
+    font-size: 3rem;
+    text-align: center;
+    padding-top: 2rem;
+}
+a{text-decoration:none;display:block;
+	-webkit-tap-highlight-color:rgba(255, 255, 255, 0);
+	-webkit-user-select:none;
+	-moz-user-focus:none;
+	-moz-user-select:none;	
+}
+/** Pad **/
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+	#minesweeper {max-width: 75% !important;}
+}
+/** Phone **/
+@media only screen and (max-width: 767px) {
+	#minesweeper {max-width: 90% !important;}
+}
+
+#minesweeper {
+	max-width: 30rem;
+    margin: 0 auto;
+    margin-top: 2rem;
+    padding: 1.8rem;
+    padding-bottom: 0.1rem;
+    background: #fff;
+}
+
+.menu ul{
+	padding-top:20px;
+	padding-bottom:20px;
+}
+
+.level-select ,.menu ul{
+	text-align: center;
+	margin: 0 auto;
+}
+
+.level-select li, .menu ul li {
+    display: inline-block;
+    width: 25%;
+}
+
+.level-select button {
+    width: 100%;
+    height: 30px;
+    border: 0;
+    background: #2d3e4a;
+    color: #e9f0ef;
+    cursor: pointer;
+}
+
+.reset button {
+    width: 3rem;
+    height: 3rem;
+    line-height: 3rem;
+    font-size: 2rem;
+    border-radius: 50%;
+    border: 0;
+    background: #e9f0ef;
+    cursor: pointer;
+}
+#mine-grid {
+	margin: 0 auto;
+}
+#mine-grid #mineBlock{
+	border: 1px solid #776e65 !important;
+	cursor: pointer;
+	background: #faf8ef;
+	vertical-align: middle;
+	text-align: center;
+	display: inline-block;
+	opacity: 100;
+	border-radius:10%;
+	font-size: 1vw;
+    line-height: initial;
+    margin:0 auto;
+}
+
+/** Pad **/
+#mine-grid #mineBlock.open {
+  background: #E9F0EF;
+  color: #2D3E4A;
+}
+
+#mine-grid #mineBlock.exploded {
+  background: #747a1b96 !important;
+  color: #E9F0EF;
+}
+
+#mine-grid #mineBlock.flagged {
+  background: #95DCED;
+}
+.mineLine{
+	border: 0;
+	margin: 0 auto;
+	width: 100%;
+	height: auto;
+	display: flex
+}
+.clear {
+	width: 0;
+	height: 0;
+	clear: both;
+	visibility:hidden;
+}
