@@ -124,10 +124,10 @@ Minesweeper.prototype._stopTimer = function() {
 Minesweeper.prototype._getButtonIdx = function(x, y) {
 	var index,
 		res = this.mineMap.filter(function(el, idx) {
-		  	if (el.x == x && el.y == y) {
+			if (el.x == x && el.y == y) {
 				index = idx;
 				return true;
-		  	}
+			}
 		});
 	return (index >= 0) ? index : -1;
 }
@@ -200,12 +200,12 @@ Minesweeper.prototype._flagButton = function(evt) {
 		$btn = $('[data-x='+x+'][data-y='+y+']'),
 		mines = parseInt(this.$mineCount.text(), 10);
 	if (btn.status === 0&&!this._hadOver) {
-	  	this.mineMap[idx].status = 2;
-	  	this.$mineCount.text(mines - 1);
-	  	this._hasWon();
+		this.mineMap[idx].status = 2;
+		this.$mineCount.text(mines - 1);
+		this._hasWon();
 	} else if (btn.status === 2&&!this._hadOver) {
-	  	this.mineMap[idx].status = 0;
-	  	this.$mineCount.text(mines + 1);
+		this.mineMap[idx].status = 0;
+		this.$mineCount.text(mines + 1);
 	}
 	$btn.toggleClass('flagged');
 }
@@ -216,19 +216,19 @@ Minesweeper.prototype._pressButton = function(evt) {
 	if (!this._hadOver&&!this.timer) this._startTimer();
 
 	if (evt.which === 1) {
-	 	$el = $(evt.target);
-	  	x = $el.attr('data-x');
-	  	y = $el.attr('data-y');
-	  	btnIdx = this._getButtonIdx(x, y);
-	  	btn = this.mineMap[btnIdx];
+		$el = $(evt.target);
+		x = $el.attr('data-x');
+		y = $el.attr('data-y');
+		btnIdx = this._getButtonIdx(x, y);
+		btn = this.mineMap[btnIdx];
 
-	  	if(btn.status===0&&!this._hadOver){
-		  	if (btn.mine) {
+		if(btn.status===0&&!this._hadOver){
+			if (btn.mine) {
 				this._openButton(x, y, 'explode')
 				this._explodeMines();
-		  	} else {
+			} else {
 				this._checkSurroundingMines(x, y)
-		 	}
+			}
 		 }
 	}
 
@@ -251,7 +251,7 @@ Minesweeper.prototype._explodeMines = function() {
 
 Minesweeper.prototype._allMinesFlagged = function() {
 	for (i = 0; i < this.minedBoxes.length; i++) {
-	    if (this.mineMap[this.minedBoxes[i]].status != 2) { return false; }
+		if (this.mineMap[this.minedBoxes[i]].status != 2) { return false; }
 	}
 	return true;
 };
@@ -259,12 +259,12 @@ Minesweeper.prototype._allMinesFlagged = function() {
 Minesweeper.prototype._allBoxesOpen = function() {
 	var btn;
 	for (i = 0; i < this.mineMap.length; i++) {
-	    btn = this.mineMap[i];
-	    if (!btn.mine) {
-		    if (btn.status !== 1) {
-		        return false;
-		    }
-	    }
+		btn = this.mineMap[i];
+		if (!btn.mine) {
+			if (btn.status !== 1) {
+				return false;
+			}
+		}
 	}
 	return true;
 }
@@ -323,6 +323,31 @@ Minesweeper.prototype._initEvents = function() {
 			minesweeper._flagButton(e);
 		}
 	);
+
+	$('#mineBlock').on({  
+		touchstart: function(e) { 
+			// 长按事件触发  
+			timeOutEvent = setTimeout(function() {  
+				timeOutEvent = 0;  
+				alert('你长按了');  
+			}, 400);  
+			//长按400毫秒   
+			// e.preventDefault();    
+		},  
+		touchmove: function() {  
+			clearTimeout(timeOutEvent);  
+			timeOutEvent = 0;  
+		},  
+		touchend: function() {  
+			clearTimeout(timeOutEvent);  
+			if (timeOutEvent != 0) {  
+				// 点击事件  
+				// location.href = '/a/live-rooms.html';  
+				alert('你点击了');  
+			}  
+			return false;  
+		}  
+	}) 
 
 	$(window).resize(function() {
 		minesweeper._initMineSize();
