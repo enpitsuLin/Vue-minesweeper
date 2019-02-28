@@ -352,22 +352,6 @@ Minesweeper.prototype._initEvents = function() {
 	$(window).resize(function() {
 		minesweeper._initMineSize();
 	});
-
-	$('#close').on('mousedown', 
-		function(e){
-			if(confirm("确定要退出吗？")){
-                 var browserName=navigator.appName;
-                 if (browserName=="Netscape"){
-                       window.open('', '_self', '');
-                       window.close();
-                 }
-                 if (browserName=="Microsoft Internet Explorer") { 
-                       window.parent.opener = "whocares"; 
-                       window.parent.close(); 
-                 }
-        	}
-		}
-	);
 	
 	$('.reset').on('click', function() {
 		$($('button').children()[1]).removeClass("fa-smile-o").removeClass("fa-frown-o").addClass("fa-meh-o")
