@@ -1,4 +1,4 @@
-#HTML5Mine HTMl5扫雷
+# HTML5Mine HTMl5扫雷
 
 本项目是于学习jQuery时产出的一个小游戏。
 
