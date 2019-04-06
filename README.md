@@ -10,7 +10,7 @@
 现存目标
 >You-Dont-Need-jQuery 抛弃jQuery
 
->Do with Reactjs or Vuejs
+>Do with Vuejs (doning)
 
 >Better style
 
