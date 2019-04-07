@@ -1,9 +1,9 @@
 import Vue from 'vue'
-import Orzmine from "./vue-mine.vue";
+import App from "./App.vue";
 import 'font-awesome/css/font-awesome.css'
 
 Vue.config.productionTip = false
 
 new Vue({
-    render: h => h(Orzmine),
+    render: h => h(App),
 }).$mount('#app')
