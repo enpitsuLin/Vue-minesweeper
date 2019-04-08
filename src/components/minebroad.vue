@@ -1,8 +1,18 @@
 <template>
   <div class="mine-body">
+    <div>
+      <div style="border:1px solid #000000;float:left;margin:20px">剩余{{mineCount}}</div>
+      <div style="border:1px solid #000000;float:left;margin:20px;cursor: pointer;" @click="initboard">reset</div>
+    </div>
     <div class="board">
       <div v-for="(row,i) of mineMap" :key="i" class="row">
-        <cell v-for="data of row" :key="data.index" :data="data"></cell>
+        <cell
+          v-for="data of row"
+          :key="`${ data.row }-${ data.index }`"
+          :data="data"
+          @handleMark="handleMark"
+          @handleOpen="handleOpen"
+        ></cell>
       </div>
     </div>
   </div>
@@ -17,7 +27,9 @@ export default {
   components: { Cell },
   data() {
     return {
-      mineMap: []
+      mineMap: [],
+      mineCount: 0,
+      gameover: false
     };
   },
   computed: {
@@ -54,14 +66,11 @@ export default {
         mineMap.push(
           shuffled
             .slice(i, i + width)
-            .map((mine, index) => ({ row: row, index, mine }))
+            .map((isMine, index) => ({ row: row, index, isMine }))
         );
       }
       for (let row = 0; row < height; row++) {
         for (let index = 0; index < width; index++) {
-          /* if (mineMap[row][index].mine === "true") {
-            continue;
-          } */
           const posMine = [
             [row - 1, index - 1],
             [row - 1, index],
@@ -85,7 +94,7 @@ export default {
             ) {
               continue;
             }
-            if (mineMap[_row][_column].mine === "true") {
+            if (mineMap[_row][_column].isMine === "true") {
               adjMine++;
             }
           }
@@ -93,11 +102,49 @@ export default {
             row: row,
             index: index,
             adjMine: adjMine,
-            mine: mineMap[row][index].mine
+            isMine: mineMap[row][index].isMine,
+            isOpen: false,
+            isMark: false
           };
         }
       }
+      this.mineCount = mineTotal;
       return mineMap;
+    },
+    handleOpen(row, index) {
+      const {
+        size: [height, width]
+      } = this.level;
+      if (row < 0 || index < 0 || row > height - 1 || index > width - 1) return;
+
+      let item = this.mineMap[row][index];
+
+      if (item.isOpen) return;
+      if (item.isMark) {
+        this.mineMap[row][index].isMark = false;
+        return;
+      } else {
+        this.mineMap[row][index].isOpen = true;
+      }
+
+      if (item.adjMine !== 0) return;
+      if (item.isMine === "true") {
+        return;
+      }
+      this.handleOpen(row - 1, index);
+      this.handleOpen(row + 1, index);
+      this.handleOpen(row, index + 1);
+      this.handleOpen(row, index - 1);
+    },
+    handleMark(row, index) {
+      if (this.mineCount - 1 < 0) return;
+      const item = this.mineMap[row][index];
+      this.mineCount += item.isMark ? 1 : -1;
+
+      this.mineMap[row][index].isMark = !this.mineMap[row][index].isMark;
+    },
+    GameOver() {
+      this.gameover = true;
     }
   },
   mounted() {

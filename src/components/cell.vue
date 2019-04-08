@@ -1,32 +1,58 @@
 <template>
-  <div class="cell">{{data.adjMine}}</div>
+  <div
+    class="cell"
+    :class="{'open':data.isOpen,'mark':data.isMark}"
+    @click.left="handleOpen"
+    @click.right="handleMark"
+  >{{data.isOpen?(data.isMine==="true"?"💣":data.adjMine):(data.isMark?"🚩":"")}}</div>
 </template>
 
 <script>
 export default {
   name: "cell",
   props: {
-    data: Object
+    data: Object //data {row,index,isOpen,isMark,mine}
   },
   data() {
-    return {
-      opened: false
-    };
+    return {};
   },
-  computer: {}
+  methods: {
+    //handle left cilck
+    handleOpen() {
+      const { row, index } = this.data;
+      this.$emit("handleOpen", row, index);
+    },
+    //handle right cilck
+    handleMark() {
+      const { row, index } = this.data;
+      event.preventDefault();
+      this.$emit("handleMark", row, index);
+    }
+  }
 };
 </script>
 
 <style lang="less">
 .cell {
-  border: 1px solid gray;
-  border-radius: 2px;
-  width: 40px;
-  height: 40px;
+  background-color: rgba(0, 0, 0, 0.4);
+  color: #eeeeee;
+  border-radius: 3px;
+  margin: 2px;
+  width: 32px;
+  height: 32px;
   cursor: pointer;
   text-align: center;
+  &.open {
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+  &.mark {
+    background-color: rgba(198, 192, 147, 0.4);
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+  }
   &:hover {
-    background-color: #fff2e2;
+    background-color: rgba(0, 0, 0, 0.3);
   }
 }
 </style>
