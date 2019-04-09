@@ -1,8 +1,12 @@
 <template>
   <div class="mine-body">
     <div>
-      <div style="border:1px solid #000000;float:left;margin:20px">剩余{{mineCount}}</div>
-      <div style="border:1px solid #000000;float:left;margin:20px;cursor: pointer;" @click="initboard">reset</div>
+      <div style="border:1px solid #000000;float:left;margin:20px">剩余{{level.mineTotal - mineCount}}</div>
+      <div
+        style="border:1px solid #000000;float:left;margin:20px;cursor: pointer;"
+        @click="reset"
+      >reset</div>
+      <div style="border:1px solid #000000;float:left;margin:20px;cursor: pointer;">{{state.time}}</div>
     </div>
     <div class="board">
       <div v-for="(row,i) of mineMap" :key="i" class="row">
@@ -29,10 +33,15 @@ export default {
     return {
       mineMap: [],
       mineCount: 0,
-      gameover: false
+      gameover: false,
+      state: { dead: false, win: false, time: 0 },
+      interval: undefined
     };
   },
   computed: {
+    timer() {
+      return !(!this.mineCount || this.state.dead || this.state.win);
+    },
     newlevel() {
       return this.level.size;
     }
@@ -40,11 +49,22 @@ export default {
   watch: {
     newlevel: function() {
       this.initboard();
+    },
+    timer(truthy) {
+      if (truthy) {
+        this.state.time = 1;
+        this.interval = setInterval(() => this.state.time++, 1000);
+      } else {
+        this.interval = clearInterval(this.interval);
+      }
     }
   },
   methods: {
-    changelevel(item) {
-      this.level = item;
+    reset() {
+      this.state = { dead: false, win: false, time: 0 };
+      this.mineCount = 0;
+      this.interval = clearInterval(this.interval);
+      this.initboard();
     },
     initboard() {
       this.mineMap = this.createmines();
@@ -108,7 +128,6 @@ export default {
           };
         }
       }
-      this.mineCount = mineTotal;
       return mineMap;
     },
     handleOpen(row, index) {
@@ -122,33 +141,50 @@ export default {
       if (item.isOpen) return;
       if (item.isMark) {
         this.mineMap[row][index].isMark = false;
-        return;
-      } else {
-        this.mineMap[row][index].isOpen = true;
+        this.mineCount--;
       }
-
-      if (item.adjMine !== 0) return;
+      this.mineMap[row][index].isOpen = true;
       if (item.isMine === "true") {
+        this.GameOver();
+
         return;
       }
+      if (item.adjMine !== 0) return;
+
       this.handleOpen(row - 1, index);
       this.handleOpen(row + 1, index);
       this.handleOpen(row, index + 1);
       this.handleOpen(row, index - 1);
     },
     handleMark(row, index) {
-      if (this.mineCount - 1 < 0) return;
       const item = this.mineMap[row][index];
-      this.mineCount += item.isMark ? 1 : -1;
+      if (this.level.mineTotal - this.mineCount - 1 < 0 || item.isOpen) return;
+      this.mineCount += item.isMark ? -1 : 1;
 
       this.mineMap[row][index].isMark = !this.mineMap[row][index].isMark;
     },
     GameOver() {
-      this.gameover = true;
+      this.state.dead = true;
+      for (let row in this.mineMap) {
+        let rowdata = this.mineMap[row];
+        for (let index in rowdata) {
+          const data = this.mineMap[row][index];
+
+          if (data.isMine === "true") {
+            data.isOpen = true;
+            if (data.isMark) {
+              data.isMark = false;
+            }
+          }
+        }
+      }
     }
   },
   mounted() {
     this.initboard();
+  },
+  destroyed() {
+    clearInterval(this.interval);
   }
 };
 </script>
