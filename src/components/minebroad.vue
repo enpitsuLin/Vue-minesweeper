@@ -1,5 +1,6 @@
 <template>
   <div class="mine-body">
+    <div class="title">扫雷</div>
     <div class="info">
       <div class="timer">时间：{{timestr}}</div>
       <div class="reset">
@@ -188,10 +189,14 @@ export default {
           const data = this.mineMap[row][index];
           if (data.isMine === "true") {
             data.isOpen = true;
-            
           }
         }
       }
+      //弹窗提醒
+      this.$emit("showdialog", {
+        title: "游戏结束",
+        content: "不幸踩雷╮(╯﹏╰)╭"
+      });
     },
     checkwin() {
       const {
@@ -202,7 +207,10 @@ export default {
 
       if (this.mineCount.open + mineTotal === totalCell) {
         this.state.win = true;
-        console.log("win!");
+        this.$emit("showdialog", {
+          title: "游戏结束",
+          content: "优秀的排雷兵！"
+        });
       }
     }
   },
@@ -215,26 +223,48 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style lang="less" >
 .mine-body {
+  margin-top: 30px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  .title {
+    box-shadow: 1px 1px 14px;
+    margin-bottom: 20px;
+    width: 100%;
+    text-align: center;
+    font-size: 24px;
+    padding: 5px;
+  }
   .info {
     display: flex;
     justify-content: space-around;
-    background-color: #eaeaef;
+    background-color: #fff;
     box-shadow: 1px 1px 14px;
     margin-bottom: 20px;
     width: 100%;
     div {
-      display: inline-block;
-      margin: 20px;
+      width: 33%;
+      text-align: center;
+      margin-top: 15px;
+      margin-bottom: 15px;
+      line-height: 30px;
     }
     .reset {
       button {
+        border: none;
+        line-height: 1;
+        white-space: nowrap;
+        margin: 0;
+        padding: 10px 15px;
         border-radius: 4px;
         cursor: pointer;
+        transition-duration: 0.4s;
+        &:hover {
+          background-color: #333;
+          color: white;
+        }
       }
     }
   }
@@ -243,7 +273,7 @@ export default {
     flex-direction: column;
     align-items: center;
     padding: 20px;
-    background-color: #eaeaef;
+    background-color: #fff;
     box-shadow: 1px 1px 14px;
     .row {
       display: flex;

@@ -1,16 +1,18 @@
 <template>
   <div class="game">
-    <div class="title">扫雷</div>
-    <Minebroad :level="level"></Minebroad>
+    <Dialog :title="dialog.title" :content="dialog.content" ref="dialog"></Dialog>
+    <Minebroad @showdialog="showdialog" :level="level"></Minebroad>
   </div>
 </template>
 
 <script type="text/babel">
 import Minebroad from "./minebroad.vue";
+import Dialog from "./dialog.vue";
 
 export default {
   components: {
-    Minebroad
+    Minebroad,
+    Dialog
   },
 
   data() {
@@ -20,8 +22,15 @@ export default {
         { name: "mid", size: [16, 16], mineTotal: 40 },
         { name: "hard", size: [16, 30], mineTotal: 99 }
       ],
-      level: { name: "easy", size: [9, 9], mineTotal: 10 }
+      level: { name: "easy", size: [9, 9], mineTotal: 10 },
+      dialog: { title: "", content: "" }
     };
+  },
+  methods: {
+    showdialog(data) {
+      this.dialog = data;
+      this.$refs.dialog.show();
+    }
   }
 };
 </script>
@@ -48,10 +57,5 @@ a {
   display: flex;
   flex-direction: column;
   align-items: center;
-  .title {
-    margin-bottom: 40px;
-    text-align: center;
-    font-size: 24px;
-  }
 }
 </style>

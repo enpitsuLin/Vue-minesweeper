@@ -47,7 +47,7 @@ export default {
   line-height: 32px;
   cursor: pointer;
   text-align: center;
-
+  transition-duration: 0.4s;
   &.open {
     background-color: rgba(0, 0, 0, 0.7);
     &.mark {
@@ -57,7 +57,7 @@ export default {
   &.mark {
     background-color: rgba(198, 192, 147, 0.4);
     &:hover {
-      background-color: rgba(0, 0, 0, 0.5);
+      background-color: rgba(83, 83, 71, 0.5);
     }
   }
   &.trigger {
