@@ -3,7 +3,13 @@
     <div class="title">扫雷</div>
     <Dialog :title="dialog.title" :content="dialog.content" ref="dialog"></Dialog>
     <setting v-show="!isStart" @handleStart="handleStart"></setting>
-    <Minebroad @showdialog="showdialog" v-show="isStart" :level="level" @back="back"></Minebroad>
+    <Minebroad
+      @showdialog="showdialog"
+      v-show="isStart"
+      :level="level"
+      @back="back"
+      ref="minebroad"
+    ></Minebroad>
   </div>
 </template>
 
@@ -34,8 +40,9 @@ export default {
     handleStart(data) {
       this.isStart = true;
       this.level = data;
+      this.$refs.init()
     },
-    back(){
+    back() {
       this.isStart = false;
     }
   }

@@ -76,8 +76,12 @@ export default {
   methods: {
     back() {
       this.$emit("back");
+      this.init()
     },
     reset() {
+      this.init();
+    },
+    init(){
       this.state = { dead: false, win: false, time: 0 };
       this.mineCount = { open: 0, mark: 0 };
       this.interval = clearInterval(this.interval);
@@ -225,7 +229,7 @@ export default {
     }
   },
   mounted() {
-    this.initboard();
+    this.init()
   },
   destroyed() {
     clearInterval(this.interval);
