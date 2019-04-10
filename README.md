@@ -4,7 +4,7 @@
 
 
 试试：
-[demo](https://enpitsulin.github.io/HTML5Mine/dist/)
+[demo](https://enpitsulin.github.io/Vue-minesweeper/dist/)
 
 
 ## 目标
