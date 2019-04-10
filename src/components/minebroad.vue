@@ -58,6 +58,7 @@ export default {
     timer(truthy) {
       if (truthy) {
         this.state.time = 1;
+        this.timestr = "00:01";
         this.interval = setInterval(() => {
           this.state.time++;
           const time = this.state.time;
@@ -180,8 +181,7 @@ export default {
 
       this.mineMap[row][index].isMark = !this.mineMap[row][index].isMark;
     },
-    GameOver() {
-      this.state.dead = true;
+    showmines() {
       //触发所有的雷
       for (let row in this.mineMap) {
         let rowdata = this.mineMap[row];
@@ -192,11 +192,15 @@ export default {
           }
         }
       }
+    },
+    GameOver() {
+      this.state.dead = true;
       //弹窗提醒
       this.$emit("showdialog", {
         title: "游戏结束",
         content: "不幸踩雷╮(╯﹏╰)╭"
       });
+      this.showmines();
     },
     checkwin() {
       const {
@@ -211,6 +215,7 @@ export default {
           title: "游戏结束",
           content: "优秀的排雷兵！"
         });
+        this.showmines();
       }
     }
   },
