@@ -1,12 +1,14 @@
 <template>
   <div class="mine-body">
-    <div class="title">扫雷</div>
     <div class="info">
-      <div class="timer">时间：{{timestr}}</div>
+      <div class="timer">时间:{{timestr}}</div>
       <div class="reset">
         <button @click="reset">重来</button>
       </div>
-      <div class="mine-count">剩余：{{level.mineTotal - mineCount.mark}}</div>
+      <div class="back">
+        <button @click="back">返回</button>
+      </div>
+      <div class="mine-count">剩余:{{level.mineTotal - mineCount.mark}}</div>
     </div>
     <div class="board">
       <div v-for="(row,i) of mineMap" :key="i" class="row">
@@ -72,6 +74,9 @@ export default {
     }
   },
   methods: {
+    back() {
+      this.$emit("back");
+    },
     reset() {
       this.state = { dead: false, win: false, time: 0 };
       this.mineCount = { open: 0, mark: 0 };
@@ -234,14 +239,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  .title {
-    box-shadow: 1px 1px 14px;
-    margin-bottom: 20px;
-    width: 100%;
-    text-align: center;
-    font-size: 24px;
-    padding: 5px;
-  }
+
   .info {
     display: flex;
     justify-content: space-around;
@@ -250,27 +248,18 @@ export default {
     margin-bottom: 20px;
     width: 100%;
     div {
-      width: 33%;
+      width: 25%;
       text-align: center;
       margin-top: 15px;
       margin-bottom: 15px;
       line-height: 30px;
     }
-    .reset {
-      button {
-        border: none;
-        line-height: 1;
-        white-space: nowrap;
-        margin: 0;
-        padding: 10px 15px;
-        border-radius: 4px;
-        cursor: pointer;
-        transition-duration: 0.4s;
-        &:hover {
-          background-color: #333;
-          color: white;
-        }
-      }
+    .timer {
+      text-align: right;
+    }
+
+    .mine-count {
+      text-align: left;
     }
   }
   .board {

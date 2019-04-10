@@ -1,6 +1,6 @@
 <template>
   <div>
-      <Game></Game>
+    <Game></Game>
   </div>
 </template>
 
@@ -15,4 +15,5 @@ export default {
 </script>
 
 <style scoped>
+
 </style>

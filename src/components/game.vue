@@ -1,28 +1,28 @@
 <template>
   <div class="game">
+    <div class="title">扫雷</div>
     <Dialog :title="dialog.title" :content="dialog.content" ref="dialog"></Dialog>
-    <Minebroad @showdialog="showdialog" :level="level"></Minebroad>
+    <setting v-show="!isStart" @handleStart="handleStart"></setting>
+    <Minebroad @showdialog="showdialog" v-show="isStart" :level="level" @back="back"></Minebroad>
   </div>
 </template>
 
 <script type="text/babel">
 import Minebroad from "./minebroad.vue";
 import Dialog from "./dialog.vue";
+import setting from "./setting";
 
 export default {
   components: {
     Minebroad,
-    Dialog
+    Dialog,
+    setting
   },
 
   data() {
     return {
-      levels: [
-        { name: "easy", size: [9, 9], mineTotal: 10 },
-        { name: "mid", size: [16, 16], mineTotal: 40 },
-        { name: "hard", size: [16, 30], mineTotal: 99 }
-      ],
-      level: { name: "easy", size: [9, 9], mineTotal: 10 },
+      level: { name: "", size: [0, 0], mineTotal: 0 },
+      isStart: false,
       dialog: { title: "", content: "" }
     };
   },
@@ -30,6 +30,13 @@ export default {
     showdialog(data) {
       this.dialog = data;
       this.$refs.dialog.show();
+    },
+    handleStart(data) {
+      this.isStart = true;
+      this.level = data;
+    },
+    back(){
+      this.isStart = false;
     }
   }
 };
@@ -53,9 +60,29 @@ a {
   -moz-user-focus: none;
   -moz-user-select: none;
 }
+button {
+  border: none;
+  line-height: 1;
+  white-space: nowrap;
+  margin: 0;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition-duration: 0.4s;
+  &:hover {
+    background-color: #333;
+    color: white;
+  }
+}
 .game {
   display: flex;
   flex-direction: column;
   align-items: center;
+  .title {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 24px;
+    padding: 5px;
+  }
 }
 </style>
