@@ -35,7 +35,7 @@
       handleStart(data) {
         this.isStart = true;
         this.level = data;
-        this.$refs.init();
+        this.$refs.minebroad.init();
       },
       back() {
         this.isStart = false;
