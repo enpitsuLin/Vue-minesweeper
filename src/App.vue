@@ -1,19 +1,14 @@
 <template>
   <div>
-    <Game></Game>
+    <Game />
   </div>
 </template>
 
 <script>
-import Game from "./components/game.vue";
+  import { defineComponent } from 'vue';
+  import Game from './components/game.vue';
 
-export default {
-  components: {
-    Game
-  }
-};
+  export default defineComponent({
+    components: { Game }
+  });
 </script>
-
-<style scoped>
-
-</style>
