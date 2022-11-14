@@ -205,7 +205,7 @@
         } = this.level;
         const totalCell = width * height;
 
-        if (this.mineCount.open + mineTotal === totalCell) {
+        if (this.mineCount.open + parseInt(mineTotal) === totalCell) {
           this.state.win = true;
           this.$emit('showdialog', {
             title: '游戏结束',
