@@ -16,7 +16,7 @@
 <script type="text/babel">
 import Minebroad from "./minebroad.vue";
 import Dialog from "./dialog.vue";
-import setting from "./setting";
+import setting from "./setting.vue";
 
 export default {
   components: {
